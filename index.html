@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Modern weather application with forecasts, AQI, and trends" />
+  <meta name="theme-color" content="#0f0f1a" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌤</text></svg>" />
+  <title>Weatherly</title>
+</head>
+<body>
+  <div class="app-container">
+    <header class="header">
+      <div class="header-left">
+        <h1 class="logo">Weatherly</h1>
+      </div>
+      <div class="header-right">
+        <button class="unit-toggle" id="unitToggle" aria-label="Toggle temperature unit">
+          <span class="unit-label unit-c">°C</span>
+          <span class="unit-divider">|</span>
+          <span class="unit-label unit-f">°F</span>
+        </button>
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+          <span class="icon-sun">☀️</span>
+          <span class="icon-moon">🌙</span>
+        </button>
+      </div>
+    </header>
+
+    <div class="kb-hint">Press <kbd>/</kbd> to search · <kbd>g</kbd> geolocate · <kbd>t</kbd> theme · <kbd>u</kbd> units · <kbd>Esc</kbd> clear</div>
+
+    <main class="main-content">
+      <section class="search-section">
+        <div class="search-container">
+          <div class="search-wrapper">
+            <input
+              type="text"
+              id="searchInput"
+              class="search-input"
+              placeholder="Search city..."
+              autocomplete="off"
+              aria-label="Search for a city"
+            />
+            <button id="searchBtn" class="search-btn" aria-label="Search">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+              </svg>
+            </button>
+          </div>
+          <button id="geoBtn" class="geo-btn" aria-label="Use current location">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7z"/>
+              <circle cx="12" cy="9" r="2.5"/>
+            </svg>
+          </button>
+        </div>
+        <div id="recentSearches" class="recent-searches"></div>
+      </section>
+
+      <section id="favSection" class="forecast-section hidden">
+        <h3 class="section-title">⭐ Favorites</h3>
+        <div id="favCities" class="fav-container"></div>
+      </section>
+
+      <section id="currentWeather" class="weather-card current-weather hidden">
+        <div class="weather-main">
+          <div class="weather-primary">
+            <div class="city-row">
+              <h2 id="cityName" class="city-name"></h2>
+              <button id="favBtn" class="fav-btn" aria-label="Toggle favorite">☆</button>
+            </div>
+            <p id="weatherDesc" class="weather-desc"></p>
+            <div class="temp-row">
+              <span id="currentTemp" class="current-temp"></span>
+              <img id="weatherIcon" class="weather-icon" alt="" />
+            </div>
+            <div class="temp-range">
+              <span>H: <span id="highTemp"></span></span>
+              <span>L: <span id="lowTemp"></span></span>
+            </div>
+            <p id="feelsLikeCompare" class="feels-compare"></p>
+          </div>
+          <div class="weather-details">
+            <div class="detail-item">
+              <span class="detail-label">Feels Like</span>
+              <span id="feelsLike" class="detail-value"></span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">Humidity</span>
+              <span id="humidity" class="detail-value"></span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">Wind</span>
+              <span id="windSpeed" class="detail-value"></span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">Wind Direction</span>
+              <span id="windDirection" class="detail-value"></span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">Wind Gust</span>
+              <span id="windGust" class="detail-value"></span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">Pressure</span>
+              <span id="pressure" class="detail-value"></span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">Visibility</span>
+              <span id="visibility" class="detail-value"></span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">Dew Point</span>
+              <span id="dewPoint" class="detail-value"></span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">Cloud Cover</span>
+              <span id="cloudCover" class="detail-value"></span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">Air Quality</span>
+              <span id="aqi" class="detail-value"></span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">Sunrise</span>
+              <span id="sunrise" class="detail-value"></span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">Sunset</span>
+              <span id="sunset" class="detail-value"></span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="trendSection" class="forecast-section hidden">
+        <h3 class="section-title">Temperature Trend</h3>
+        <div class="chart-wrapper">
+          <canvas id="tempChart" class="temp-chart"></canvas>
+        </div>
+      </section>
+
+      <section id="hourlySection" class="forecast-section hidden">
+        <h3 class="section-title">Hourly Forecast</h3>
+        <div id="hourlyForecast" class="hourly-container"></div>
+      </section>
+
+      <section id="weeklySection" class="forecast-section hidden">
+        <h3 class="section-title">5-Day Forecast</h3>
+        <div id="weeklyForecast" class="weekly-container"></div>
+      </section>
+    </main>
+
+    <div id="loadingSpinner" class="loading hidden">
+      <div class="spinner"></div>
+    </div>
+
+    <div id="errorToast" class="error-toast hidden"></div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
